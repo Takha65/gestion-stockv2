@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,7 +25,7 @@ public class GestionProduit {
     ResultSet rs=null;
     PreparedStatement st;
     
-           public int addProduit(int cat,String n,int qte,String unite)
+    public int addProduit(int cat,String n,int qte,String unite)
     {
         int a=0;
         try {
@@ -53,7 +55,8 @@ public class GestionProduit {
             rs=st.executeQuery();
             while(rs.next())
             {
-                comb.addItem(rs.getString("Libele"));          
+                    comb.addItem(rs.getString("Libele"));
+                    comb.setSelectedIndex(rs.getInt("idCategorie"));
             }
         } catch (Exception e) {
         }
@@ -101,5 +104,13 @@ public class GestionProduit {
         } catch (Exception e) {
         }
         return value;
+    }
+    
+    public void remplirTab(JTable tab,String p,int pu,int qte,int pt,String j)
+    {
+        String tbData[]={p,""+pu,""+qte,""+pt,j};
+        DefaultTableModel model=(DefaultTableModel)tab.getModel();
+        model.addRow(tbData);
+
     }
 }
